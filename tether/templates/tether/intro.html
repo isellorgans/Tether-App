@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+<head>
+	<title>Online League Station | Intro</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Sansita" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/hovers.css' %}">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static 'scripts/bootstrap.min.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+	// Loads the Dota-2 theme
+	$("#dota-2-theme").on("click", function(){
+		$("#intro-img-1").attr("src", '{% static 'images/dota_1.jpg' %}');
+		$("#intro-img-2").attr("src", '{% static 'images/dota_3.jpg' %}');
+		$("#intro-img-3").attr("src", '{% static 'images/dota_2.jpg' %}');
+	});
+
+	// Loads the CS:GO theme
+	$("#cs-go-theme").on("click", function(){
+		$("#intro-img-1").attr("src", '{% static 'images/cs-go-1.jpg' %}');
+		$("#intro-img-2").attr("src", '{% static 'images/cs-go-3.jpg' %}');
+		$("#intro-img-3").attr("src", '{% static 'images/cs-go-2.jpg' %}');
+	});
+
+});
+    </script>
+
+</head>
+<body class="container" style="background: #cccccc url({% static "images/background3.jpg" %}) fixed;">
+	<div class="wrapper">
+		<div class="header" style="background-color: #182a31; border: 1px solid #cbcbcb; border-radius: 5px;">
+			<div class="row">
+				<div class="col-md-3">
+		<a href="{% url 'intro' %}"><img src="{% static "images/tether_logo.png" %}" class="img-rounded" style="height: 100px; width: 100px"></a>
+				 <h1 class="title-column" style="float: right; font-size: 60px; margin-right: -150%"><strong>TETHER</strong></h1>
+                </div>
+				<div class="col-md-offset-7 col-md-2">
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle theme-btn" type="button" data-toggle="dropdown">Theme <span class="caret"></span></button>
+						<ul class="dropdown-menu">
+							<li><button id="dota-2-theme" class="btn btn-block btn-warning">Dota-2</button></li>
+							<li><button id="cs-go-theme" class="btn btn-block btn-success">CS:GO</button></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div> <!-- Header Section -->
+		<div class="clearfix"></div>
+		<div class="site-content">
+			<div class="row">
+				<div class="col-md-4 col-sm-6">
+					<h1 class="title-column"><strong>LEAGUES</strong></h1>
+					<div class="ih-item square effect6 bottom_to_top">
+						<a href="{% url 'join_public' %}">
+							<img id="intro-img-1" src="{% static 'images/dota_1.jpg' %}" class="img img-responsive img-rounded">
+							<div class="info">
+								<p>Welcome! Play your favorite online games while competing with other players across the globe. Join a League today to get started.</p>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col-md-4 col-sm-6">
+					<h1 class="title-column"><strong>TETHER</strong></h1>
+					<div class="ih-item square effect6 bottom_to_top">
+						<a href="{% url 'index' %}">
+							<img id="intro-img-2" src="{% static 'images/dota_3.jpg' %}" class="img img-responsive img-rounded">
+							<div class="info">
+								<p>Tether is a platform that aims to provide gamers with a close-knit and competitive environment; <br/>No salt allowed!</p>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col-md-4 col-sm-6">
+					<h1 class="title-column"><strong>STATISTICS</strong></h1>
+					<div class="ih-item square effect6 bottom_to_top">
+						<a href="{% url 'profile' %}">
+							<img id="intro-img-3" src="{% static 'images/dota_2.jpg' %}" class="img img-responsive img-rounded">
+							<div class="info">
+								<p>Brief statistics for public games available to registered players. We also provide a snapshot of your most recent matches!</p>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div> <!-- Content Section -->
+		<div class="footer"style="background-color: #182a31; text-align: center;">
+			<p style="font-size: 18px; color: #c3e8ef; float:left">Ready to Get Started?</p>
+
+			<a href="{% url 'index' %}" class="btn btn-success text-center" id="enter_site footer-btn" style="font-size: 25px; color: #c3e8ef; text-align: center; margin-right: 150px">Enter Site</a>
+			<div class="clearfix"></div>
+		</div> <!-- Footer Section -->
+	</div> <!-- Wrapper for the body -->
+	<hr>
+	<footer>
+		<div class="footer-social-icons">
+				<p>Contact Us:</p>
+				<ul class="list-inline">
+					<li><a href="#"><i class="fa fa-github fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-facebook-official fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-slack fa-lg" aria-hidden="true"></i></a></li>
+				</ul>
+			</div>
+	</footer>
+</body>
+</html>

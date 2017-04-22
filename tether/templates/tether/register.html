@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<head xmlns="http://www.w3.org/1999/html">
+	<title>Online League Station | Create or Join Leagues</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Sansita" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body class="container" style="background: #cccccc url({% static "images/background.jpg" %}) fixed;">
+{% if registered %}
+    <h1><a href="{% url 'index' %}">Thank you for registering! Click here to go to the home page!</a></h1>
+
+{% else %}
+    <div class="row">
+    <h2>Registering your profile<a href="{% url 'index' %}"><button class="btn btn-success col-sm-offset-10">Home</button></a></h2>
+        <hr>
+
+        <form id="user_form" method="post" action="/tether/register/" enctype="multipart/form-data" class="form-horizontal">
+        {% csrf_token %}
+            <fieldset>
+
+<!-- Form Name -->
+<h1>Register Here!</h1>
+{{ user_form.non_field_errors }}
+
+<!-- Text input-->
+<div class="form-group">
+  {{ user_form.username.errors }}
+  <label class="col-md-4 control-label" for="{{ user_form.username.id_for_label }}">Username</label>
+  <div class="col-md-4">
+      {{ user_form.username }}
+  <span class="help-block"> </span>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  {{ user_form.password.errors }}
+  <label class="col-md-4 control-label" for="{{ user_form.password.id_for_label }}">Password</label>
+  <div class="col-md-4">
+  {{ user_form.password }}
+  <span class="help-block"> </span>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  {{ user_form.email.errors }}
+  <label class="col-md-4 control-label" for="{{ user_form.email.id_for_label }}">Email</label>
+  <div class="col-md-4">
+  {{ user_form.email }}
+  <span class="help-block"> </span>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  {{ profile_form.region.errors }}
+  <label class="col-md-4 control-label" for="{{ profile_form.region.id_for_label }}">Region</label>
+  <div class="col-md-4">
+  {{ profile_form.region }}
+  <span class="help-block"> </span>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  {{ profile_form.steam_id.errors }}
+  <label class="col-md-4 control-label" for="{{ profile_form.steam_id.id_for_label }}">Steam ID</label>
+  <div class="col-md-4">
+  {{ profile_form.steam_id }}
+  <span class="help-block"> </span>
+  </div>
+</div>
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="singlebutton"> </label>
+  <div class="col-md-4">
+    <button id="singlebutton" type="submit" name="singlebutton" class="btn btn-success btn-block">Register</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+{% endif %}
+    </div>
+</div>
+</body>

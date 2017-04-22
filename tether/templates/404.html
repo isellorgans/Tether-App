@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tether Error</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Sansita" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body style="background-color: #286666">
+<h1>Whoops! Something went wrong.</h1>
+<h2>We were unable to get the data or page you requested. </h2>
+<h3>This is our General Error page.</h3>
+<h4>You have landed here for one of the following reasons: </h4>
+<h5> <ul>
+        <li>You entered an invalid URL</li>
+        <li>The player you requested data for hides their match data from third party applications. :(</li>
+        <li>You created your account with an invalid Steam ID. If you believe this is the case, please contact an administrator.</li>
+        <li>The Dota 2 API is temporarily down. Try again later.</li>
+    </ul>
+</h5>
+
+<h4>If you didn't request match data but landed here anyway, you must be lost.
+    <br />
+    Head back to safety and quit breaking things, you monster.
+</h4>
+</body>
+</html>

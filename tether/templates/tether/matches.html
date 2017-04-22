@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="en">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Sansita" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>Online League Station | Create or Join Leagues</title>
+</head>
+<body class="container">
+	<div class="display_league_info">
+		<div class="row">
+			<div class="col-md-6 matches_lobby">
+				<h3>Matches Lobby</h3>
+                {{ match.name }}
+				<hr>
+				<div class="row">
+					<div class="col-xs-6">
+                        <h3 style="text-align: center">Team 1</h3>
+                        <form method="post">
+                            {% csrf_token %}
+						    <button id="p1" name="p1" class="btn btn-success btn-lg btn-block" type="submit">
+                                {% if match.player1 %}
+                                    {{ match.player1 }}
+                                {% else %}
+                                    Player 1
+                                {% endif %}
+                            </button>
+
+						    <br><br><br>
+
+						    <button id="p2" name="p2" class="btn btn-success btn-lg btn-block" type="submit">
+                                {% if match.player2 %}
+                                    {{ match.player2 }}
+                                {% else %}
+                                    Player 2
+                                {% endif %}
+                            </button>
+
+						    <br><br><br>
+
+                            <button id="p3" name="p3" class="btn btn-success btn-lg btn-block" type="submit">
+                                {% if match.player3 %}
+                                    {{ match.player3 }}
+                                {% else %}
+                                    Player 3
+                                {% endif %}
+                            </button>
+
+						    <br><br><br>
+
+                            <button id="p4" name="p4" class="btn btn-success btn-lg btn-block" type="submit">
+                                {% if match.player4 %}
+                                    {{ match.player4 }}
+                                {% else %}
+                                    Player 4
+                                {% endif %}
+                            </button>
+
+						    <br><br><br>
+
+                            <button id="p5" name="p5" class="btn btn-success btn-lg btn-block" type="submit">
+                                {% if match.player5 %}
+                                    {{ match.player5 }}
+                                {% else %}
+                                    Player 5
+                                {% endif %}
+                            </button>
+
+                        </form>
+
+					    </div>
+
+                    <div class="col-xs-6">
+                        <h3 style="text-align: center">Team 2</h3>
+                        <form method="post">
+                            {% csrf_token %}
+                            <button id="p6" name="p6" class="btn btn-success btn-lg btn-block" type="submit">
+                                {% if match.player6 %}
+                                    {{ match.player6 }}
+                                {% else %}
+                                    Player 6
+                                {% endif %}
+                            </button>
+
+                            <br><br><br>
+
+                            <button id="p7" name="p7" class="btn btn-success btn-lg btn-block" type="submit">
+                                {% if match.player7 %}
+                                    {{ match.player7 }}
+                                {% else %}
+                                    Player 7
+                                {% endif %}
+                            </button>
+
+                            <br><br><br>
+
+                            <button id="p8" name="p8" class="btn btn-success btn-lg btn-block" type="submit">
+                                {% if match.player8 %}
+                                    {{ match.player8 }}
+                                {% else %}
+                                    Player 8
+                                {% endif %}
+                            </button>
+
+                            <br><br><br>
+
+                            <button id="p9" name="p9" class="btn btn-success btn-lg btn-block" type="submit">
+                                {% if match.player9 %}
+                                    {{ match.player9 }}
+                                {% else %}
+                                    Player 9
+                                {% endif %}
+                            </button>
+
+                            <br><br><br>
+
+                            <button id="p10" name="p10" class="btn btn-success btn-lg btn-block" type="submit">
+                                {% if match.player10 %}
+                                    {{ match.player10 }}
+                                {% else %}
+                                    Player 10
+                                {% endif %}
+                            </button>
+
+                        </form>
+
+                    </div>
+
+				</div>
+				<hr>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $("#end").click(function () {
+                            $("#show").show();
+                        })
+                    })
+                </script>
+				<div class="row">
+                    {% if not match.finished %}
+                        {% if owner %}
+					        <div class="col-md-offset-3 col-md-3">
+                                {% if match.locked %}
+                                    <h4>Match has been started.</h4>
+                                {% endif %}
+                                <form method="post">
+                                {% csrf_token %}
+						            <button id="start" type="submit" name="start" class="btn btn-default btn-block">Start Game</button>
+                                </form>
+					        </div>
+					        <div class="col-md-3">
+                                <button id="end" name="end" class="btn btn-warning btn-block">End Game</button>
+					        </div>
+                        {% endif %}
+                    {% else %}
+                        <h3>This match has been completed. Congratulations {{ match.winner }}!</h3>
+                    {% endif %}
+				</div>
+                <div class="row">
+                    <div id="show" style="display: none">
+                        <h2 style="text-align: center">Which team won?</h2>
+                        <form id="team1_form" method="post" action=".">
+                        {% csrf_token %}
+                            <button style="float: left; width: 33%" id="team1" name="team1" class="btn btn-default" type="submit">Team 1</button>
+                            <button style="float: right; width: 33%" id="team2" name="team2" class="btn btn-default" type="submit">Team 2</button>
+                        </form>
+                    </div>
+                </div>
+				<br>
+			</div>
+		</div>
+		<br><br>
+	</div>
+</body>
+</html>

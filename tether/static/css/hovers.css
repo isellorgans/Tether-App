@@ -1,0 +1,61 @@
+.ih-item.square.effect6 {
+  overflow: hidden;
+}
+
+.ih-item.square.effect6 .img {
+  -webkit-transition: all 0.35s ease-in-out;
+  -moz-transition: all 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1);
+}
+
+.ih-item.square.effect6 .info {
+  background: #333333;
+  background: rgba(0, 0, 0, 0.6);
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: all 0.35s ease-in-out;
+  -moz-transition: all 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out;
+}
+
+.ih-item.square.effect6 .info p {
+  position: relative;
+  padding: 20px 20px 20px;
+  text-align: center;
+  color: #fff;
+  -webkit-transition: all 0.35s 0.1s linear;
+  -moz-transition: all 0.35s 0.1s linear;
+  transition: all 0.35s 0.1s linear;
+}
+
+.ih-item.square.effect6 a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.ih-item.square.effect6 a:hover .img {
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  transform: scale(1.2);
+  opacity: 0.8;
+}
+
+.ih-item.square.effect6 a:hover .info {
+  visibility: visible;
+  opacity: 1;
+}
+
+.ih-item.square.effect6.bottom_to_top a:hover .info {
+  -webkit-transform: translateY(-180%);
+  -moz-transform: translateY(-180%);
+  -ms-transform: translateY(-180%);
+  -o-transform: translateY(-180%);
+  transform: translateY(-300%);
+}

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+	<title>Online League Station | Create League</title>
+	<link rel="stylesheet" href="{% static  'css/bootstrap.css'%}">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Sansita" rel="stylesheet">
+	<link rel="stylesheet" href="{% static  'css/style.css'%}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static  'scripts/bootstrap.js'%}"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.privateLeague').hide();
+			$('#stepOne').on('click',function (e) {
+				if (e.originalEvent.defaultPrevented) return;
+				$('.publicLeague').show();
+			    $('.privateLeague').hide();
+			    $('#stepOne').addClass('btn-primary');
+			    $('#stepTwo').removeClass('btn-primary').addClass('btn-default');
+			    $('#league_leader').html('Public (will not require a password)');
+			});
+			$('#stepTwo').on('click',function (e) {
+				if (e.originalEvent.defaultPrevented) return;
+				$('.privateLeague').show();
+			    $('.publicLeague').hide();
+			    $('#stepOne').removeClass('btn-primary').addClass('btn-default');
+			    $('#stepTwo').addClass('btn-primary');
+			    $('#league_leader').html('Private (can require a password)');
+			})
+		});
+	</script>
+    <style>
+        .form-group {
+            color: #211431;
+        }
+    </style>
+</head>
+<body class="container" style="background: #cccccc url({% static "images/background3.jpg" %}) fixed;">
+	<header style="background-color: #182a31; border: 1px solid #cbcbcb; border-radius: 5px;">
+		<a href="{% url 'intro' %}"><img src="{% static "images/tether_logo.png" %}" class="img img-rounded" style="height: 100px; width: 100px"></a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="btn btn-default login">Logout</a>
+            <a href="{% url 'profile' %}" class="btn btn-default login">{{ request.user.username }}</a>
+        {% else %}
+            <a href="{% url 'register' %}" class="btn btn-primary login">Register</a>
+            <form id="login_form" method="post" action='/tether/login/' class="navbar-form navbar-right">
+            {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-default">Sign In</button>
+            </form>
+        {% endif %}
+	</header><br>
+	<nav>
+		<ul class="nav nav-tabs nav-justified">
+			<li><a href="{% url 'index' %}">Home</a></li>
+			<li><a href="{% url 'join_public' %}">Community Leagues</a></li>
+			<li class="active"><a href="#">Create League</a></li>
+			<li><a href="{% url 'profile' %}">Profile</a></li>
+		</ul>
+	</nav>
+	<hr>
+	<div class="create_league">
+		<h3>Create League</h3>
+		<hr>
+		<div class="jumbotron">
+			<div class="row">
+				<div class="col-lg-5"><img src="{% static 'images/create.jpg' %}" alt="Image"></div>
+				<div class="col-lg-7">
+					<h3 id="league_leader">
+						Select League Type
+					</h3>
+					<br>
+					<div class="row">
+						<div class="col-md-6">
+							<button id="stepOne" class="btn btn-primary btn-lg btn-block">Public</button>
+						</div>
+						<div class="col-md-6">
+							<button id="stepTwo" class="btn btn-default btn-lg btn-block">Private</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+	</div>
+	<div class="create_account">
+			<div class="publicLeague" id="publicLeague">
+                <form id="league_form" method="post" class="form-horizontal" action="/tether/add_league/">
+                {% csrf_token %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+			    <br>
+                    {{ form.non_field_errors }}
+			    <div class="form-group">
+                    {{ form.league_name.errors }}
+                    <label for="{{ form.league_name.id_for_label }}" class="col-sm-offset-1 col-sm-2 control-label">League Name</label>
+                    {{ form.league_name }}
+                    <div class="col-sm-5"></div>
+			    </div>
+			    <div class="form-group">
+                    {{ form.region.errors }}
+                    <label for="{{ form.region.id_for_label }}" class="col-sm-offset-1 col-sm-2 control-label">Region</label>
+                    {{ form.region }}
+                    <div class="col-sm-5"></div>
+			    </div>
+                <div class="form-group">
+                    {{ form.skill_level.errors }}
+                    <label for="{{ form.skill_level.id_for_label }}" class="col-sm-offset-1 col-sm-2 control-label">Skill Level</label>
+                    {{ form.skill_level }}
+                    <div class="col-sm-5"></div>
+                    <div class="form-group row">
+				        <div class="col-sm-offset-1 col-sm-3">
+                            <br>
+                            <button type="submit" class="btn btn-success btn-lg btn-block">Create League</button>
+				        </div>
+				    </div>
+			    </div>
+                </form>
+		    </div>
+		    <div class="privateLeague" id="privateLeague">
+                <form id="league_form" method="post" class="form-horizontal" action="/tether/add_league/">
+                {% csrf_token %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+		    	<br>
+                {{ form.non_field_errors }}
+			    <div class="form-group">
+                    {{ form.league_name.errors }}
+                    <label for="{{ form.league_name.id_for_label }}" class="col-sm-offset-1 col-sm-2 control-label">League Name</label>
+                    {{ form.league_name }}
+                    <div class="col-sm-5"></div>
+			    </div>
+			    <div class="form-group">
+                    {{ form.region.errors }}
+                    <label for="{{ form.region.id_for_label }}" class="col-sm-offset-1 col-sm-2 control-label">Region</label>
+                    {{ form.region }}
+                    <div class="col-sm-5"></div>
+			    </div>
+                <div class="form-group">
+                    {{ form.skill_level.errors }}
+                    <label for="{{ form.skill_level.id_for_label }}" class="col-sm-offset-1 col-sm-2 control-label">Skill Level</label>
+                    {{ form.skill_level }}
+                    <div class="col-sm-5"></div>
+			    </div>
+                <div class="form-group">
+                    {{ form.password.errors }}
+                    <label for="{{ form.password.id_for_label }}" class="col-sm-offset-1 col-sm-2 control-label">Password</label>
+                    {{ form.password }}
+                    <div class="col-sm-5"></div>
+			    	<div class="form-group row">
+				        <div class="col-sm-offset-1 col-sm-3">
+                            <br>
+				            <button type="submit" class="btn btn-success btn-lg btn-block">Create League</button>
+				        </div>
+				    </div>
+			    </div>
+                </form>
+            </div>
+    </div>
+
+	<br><hr>
+	<footer>
+		<div class="footer-social-icons">
+				<p>Contact Us:</p>
+				<ul class="list-inline">
+					<li><a href="#"><i class="fa fa-github fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-facebook-official fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-slack fa-lg" aria-hidden="true"></i></a></li>
+				</ul>
+			</div>
+	</footer>
+	<br>
+
+</body>
+</html>

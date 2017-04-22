@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+<head>
+	<title>Online League Station | Create or Join Leagues</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Sansita" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static 'scripts/bootstrap2.min.js' %}"></script>
+
+</head>
+<body class="container" style="background: #cccccc url({% static "images/background3.jpg" %}) fixed;">
+
+	<header style="background-color: #182a31; border: 1px solid #cbcbcb; border-radius: 5px;">
+		<a href="{% url 'intro' %}"><img src="{% static "images/tether_logo.png" %}" class="img img-rounded" style="height: 100px; width: 100px"></a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="btn btn-default login">Logout</a>
+            <a href="{% url 'profile' %}" class="btn btn-default login">{{ request.user.username }}</a>
+        {% else %}
+            <a href="{% url 'register' %}" class="btn btn-primary login">Register</a>
+            <form id="login_form" method="post" action='/tether/login/' class="navbar-form navbar-right">
+            {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-default">Sign In</button>
+            </form>
+        {% endif %}
+	</header><br>
+	<nav>
+		<ul class="nav nav-tabs nav-justified">
+			<li class="active"><a href="#">Home</a></li>
+			<li><a href="{% url 'join_public' %}">Community Leagues</a></li>
+			<li><a href="{% url 'add_league' %}">Create Leagues</a></li>
+			<li><a href="{% url 'profile' %}">Profile</a></li>
+		</ul>
+	</nav>
+	<hr>
+	<div class="welcome">
+		<h3>Online League Station, Create or Join Leagues!!</h3>
+		<hr>
+		<div class="jumbotron">
+			<div class="row">
+				<div class="col-lg-5"><img src="{% static "images/dota5.jpg" %}" alt="Image" height="218px" width="350px"></div>
+				<div class="col-lg-7">
+					<p>Welcome! Play your favorite online games while competing with other players across the globe. Join a League today to get started.
+					</p>
+				</div>
+			</div>
+		</div>
+		<hr>
+	</div>
+	<div class="active_leagues">
+		<h3>Featured Leagues</h3>
+		<hr>
+		<div class="row">
+            <div class="col-md-4">
+                <div class="league-container" style="background-color: rgba(34, 34, 34, 0.88); padding: 5px; border-radius: 5px; border: groove; border-width: 4px; border-color: #ffd77d">
+                    {% if leagueslug0 %}
+                        <a href="{% url 'public_league' leagueslug0 %}">League Name: {{ leaguename0 }}<br/>Region: {{ leagueregion0 }}<br/> Players: {{ leagueplayers0 }}</a>
+                    {% endif %}
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="league-container" style="background-color: #e84c3d; padding: 5px; border-radius: 5px; border: groove; border-width: 4px; border-color: #ffd77d; border-color: #ffd77d">
+                    {% if leagueslug1 %}
+                        <a href="{% url 'public_league' leagueslug1 %}">League Name: {{ leaguename1 }}<br/>Region: {{ leagueregion1 }}<br/> Players: {{ leagueplayers1 }}</a>
+                    {% endif %}
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="league-container" style="background-color: #2ecd71; padding: 5px; border-radius: 5px; border: groove; border-width: 4px; border-color: #ffd77d">
+                    {% if leagueslug2 %}
+                        <a href="{% url 'public_league' leagueslug2 %}">League Name: {{ leaguename2 }}<br/>Region: {{ leagueregion2 }}<br/> Players: {{ leagueplayers2 }}</a></div>
+                    {% endif %}
+                </div>
+            </div>
+		<br>
+		<div class="row">
+			<div class="col-md-4">
+                <div class="league-container" style="background-color: #9b58b5; padding: 5px; border-radius: 5px; border: groove; border-width: 4px; border-color: #ffd77d">
+                    {% if leagueslug3 %}
+                        <a href="{% url 'public_league' leagueslug3 %}">League Name: {{ leaguename3 }}<br/>Region: {{ leagueregion3 }}<br/> Players: {{ leagueplayers3 }}</a>
+                    {% endif %}
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="league-container" style="background-color: #e77e23; padding: 5px; border-radius: 5px; border: groove; border-width: 4px; border-color: #ffd77d">
+                    {% if leagueslug4 %}
+                        <a href="{% url 'public_league' leagueslug4 %}">League Name: {{ leaguename4 }}<br/>Region: {{ leagueregion4 }}<br/> Players: {{ leagueplayers4 }}</a>
+                    {% endif %}
+                </div>
+            </div>
+			<div class="col-md-4"><br><br><br><a href="{% url 'join_public' %}"><p id="continue">. . . <br> continue</p></a></div>
+		</div>
+	</div>
+	<hr>
+	<footer>
+		<div class="footer-social-icons">
+				<p>Contact Us:</p>
+				<ul class="list-inline">
+					<li><a href="#"><i class="fa fa-github fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-facebook-official fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-slack fa-lg" aria-hidden="true"></i></a></li>
+				</ul>
+			</div>
+	</footer>
+	<br>
+   {% comment %} <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="myModal">Open Modal</button>
+    {% endcomment %}
+<!-- Modal for login required -->
+    {% if not user.is_authenticated %}
+
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Login Required</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Sorry this page requires you to login</a> first</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Login</button>
+                    </div>
+                </div>
+
+            </div>
+         </div>
+    {% endif %}
+</body>
+</html>

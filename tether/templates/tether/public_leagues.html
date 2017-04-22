@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load django_tables2 %}
+
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="en">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Sansita" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>Online League Station | Create or Join Leagues</title>
+    <style>
+        input, select, textarea, .league_table a {
+            color: black;
+        }
+    </style>
+</head>
+<body class="container" style="background: #cccccc url({% static "images/background3.jpg" %}) fixed;">
+	<header style="background-color: #182a31; border: 1px solid #cbcbcb; border-radius: 5px;">
+		<a href="{% url 'intro' %}"><img src="{% static "images/tether_logo.png" %}" class="img img-rounded" style="height: 100px; width: 100px"></a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="btn btn-default login">Logout</a>
+            <a href="{% url 'profile' %}" class="btn btn-default login">{{ request.user.username }}</a>
+        {% else %}
+            <a href="{% url 'register' %}" class="btn btn-primary login">Register</a>
+            <form id="login_form" method="post" action='/tether/login/' class="navbar-form navbar-right">
+            {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-default">Sign In</button>
+            </form>
+        {% endif %}
+	</header><br>
+	<nav>
+		<ul class="nav nav-tabs nav-justified">
+			<li><a href="{% url 'index' %}">Home</a></li>
+			<li><a href="{% url 'join_public' %}">Community Leagues</a></li>
+			<li><a href="{% url 'add_league' %}">Create Leagues</a></li>
+			<li><a href="{% url 'profile' %}">Profile</a></li>
+		</ul>
+	</nav>
+	<hr>
+	<div class="welcome">
+		<h2>{{ league.league_name }}</h2>
+        <br>
+        <h3>Admin: {{ league.owner }} | Region: {{ league.region }} | Skill Level: {{ league.skill_level }}</h3>
+		<hr>
+	</div>
+	<div class="display_league_info">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-6 players_in_league">
+                        <span style="font-size: x-large">Players in League</span> <span style="float: right">Skill</span>
+                        <hr>
+                        <p>
+                            {% for userprofile in users %}
+                                <span>{{ userprofile.profile.user.username }}</span> <span style="float: right">{{ userprofile.player_skill }}</span>
+                                    {% if owner %}
+                                        <form id="kick_form" method="post" action=".">
+                                        {% csrf_token %}
+                                            <input type="hidden" name="kick" value={{ userprofile.profile.id }}>
+                                            <button id="kick" type="submit" class="btn btn-success btn-sm">Kick</button>
+                                        </form>
+                                    {% endif %}
+						        <hr>
+                            {% endfor %}
+                        </p>
+                        {% if join %}
+                            <form id="password_form" method="post" action="." enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {% if password %}
+                                    <label for="password">Password</label>
+                                    <input type="text" name="password" id="password">
+                                {% endif %}
+                                <button id="join_submit" type="submit" class="btn btn-success btn-md btn-block" name="join">Join</button>
+                            </form>
+                        {% endif %}
+					</div>
+					<div class="col-md-6 matches_in_league">
+						<h3>Matches in League</h3>
+                        <hr>
+
+                        {% if matchbool %}
+                            {% for match in matches %}
+                                <div class ="match_trigger">
+                                    <button onclick="setURL('{% url 'match' match.id %}')" class="btn-success btn-lg btn-block" style="border-color: #2ecd71; background-color: #2b669a">{{ match.name }}</button>
+                                    {% if owner %}
+                                        <form id="delete_form" method="post" action=".">
+                                        {% csrf_token %}
+                                            <input type="hidden" name="delete" value={{ match.id }}>
+                                            <button id="delete" type="submit" class="btn btn-success btn-sm">Delete</button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+						        <hr>
+                            {% endfor %}
+                        {% endif %}
+
+                        <script>
+                            function setURL(url){
+                                document.getElementById('iframe').src=url;
+                            }
+                        </script>
+
+                        <form id="make_form" method="post" action=".">
+                            {% csrf_token %}
+                            {% if owner %}
+                                <label for="makefield">Match Name</label>
+                                <input type="text" name="makefield" id="makefield">
+                                <button id="make_submit" type="submit" class="btn btn-success btn-md btn-block" name="make">Create Match</button>
+                            {% endif %}
+                        </form>
+                    </div>
+			    </div>
+            </div>
+			        <div class="col-md-6 matches_lobby">
+                        <div class="row">
+                                <iframe id="iframe" width="585" height="900" class="embed-responsive-item" scrolling="no" src="" frameborder="0"></iframe>
+                        </div>
+		            </div>
+            </div>
+        </div>
+		<br><br>
+	<div class="jumbotron">
+			<div class="row">
+				<div class="col-md-6">
+					<h3>Match History</h3>
+                    <div class="league_table">
+                        {% render_table table %}
+                    </div>
+				</div>
+			</div>
+		</div>
+	<br><hr>
+	<footer>
+		<div class="footer-social-icons">
+				<p>Contact Us:</p>
+				<ul class="list-inline">
+					<li><a href="#"><i class="fa fa-github fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-facebook-official fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-slack fa-lg" aria-hidden="true"></i></a></li>
+				</ul>
+			</div>
+	</footer>
+	<br>
+</body>
+</html>

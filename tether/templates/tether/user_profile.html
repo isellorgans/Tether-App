@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+<head>
+	<title>Online League Station | Profile Area</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Sansita" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+    <style>
+        .lower_content a {
+            color: black
+        }
+    </style>
+</head>
+<body class="container" style="background: #cccccc url({% static "images/../../static/images/background3.jpg" %}) fixed;">
+	<header style="background-color: #182a31; border: 1px solid #cbcbcb; border-radius: 5px;">
+		<a href="{% url 'intro' %}"><img src="{% static "images/tether_logo.png" %}" class="img img-rounded" style="height: 100px; width: 100px"></a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="btn btn-default login">Logout</a>
+            <a href="{% url 'profile' %}" class="btn btn-default login">{{ request.user.username }}</a>
+        {% else %}
+            <a href="{% url 'register' %}" class="btn btn-primary login">Register</a>
+            <form id="login_form" method="post" action='/tether/login/' class="navbar-form navbar-right">
+            {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-default">Sign In</button>
+            </form>
+        {% endif %}
+	</header><br>
+	<nav>
+		<ul class="nav nav-tabs nav-justified">
+			<li><a href="{% url 'index' %}">Home</a></li>
+			<li><a href="{% url 'join_public' %}">Community Leagues</a></li>
+			<li><a href="{% url 'add_league' %}">Create Leagues</a></li>
+			<li class="active"><a href="#">Profile</a></li>
+		</ul>
+	</nav>
+	<hr>
+	<div class="welcome">
+		<h3>League Profile Area</h3>
+		<hr>
+		<div class="jumbotron">
+			<div class="row">
+				<div class="col-lg-5"><img src="{% static 'images/profile2.jpg' %}" alt="Image"></div>
+				<div class="col-lg-7">
+					<p>Feel free to go through profiles of various Leagues, recently played matches and the latest news
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<div class="edit-profile">
+		<h3>Personal Information</h3>
+		<hr>
+		<div class="row">
+  			<div class="profileArea">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="team_table">
+								<table class="table table-bordered table-hover">
+									<tr>
+										<td class="lcol"><strong>Username</strong></td>
+										<td>{{ user.username }}</td>
+									</tr>
+									<tr>
+										<td class="lcol"><strong>Region</strong></td>
+										<td>{{ user.userprofile1.region }}</td>
+									</tr>
+									<tr>
+										<td class="lcol"><strong>Steam Id</strong></td>
+										<td>{{ user.userprofile1.steam_id }}</td>
+									</tr>
+                                    <tr>
+                                        <td class="locl"><strong>Leagues</strong></td>
+                                        <td>{{ user.userprofile1.leaguemembership.league.league_id }}</td>
+                                    </tr>
+                                    {% comment %}
+									<tr>
+										<td class="lcol"><strong>Win Rate</strong></td>
+										<td>{{ user.userprofile1.newrecentmatches.id_match0 }}</td>
+									</tr>
+									<tr>
+										<td class="lcol"><strong>League Rank</strong></td>
+										<td></td>
+                                    </tr>
+                                    {% endcomment %}
+                                </table>
+                            </div>
+                        </div>
+					</div>
+			    	<br>
+            </div>
+		</div>
+	</div>
+	<hr>
+	<div class="lower_content">
+		<table class="table table-bordered table-striped">
+			<tr>
+				<th>Recent Matches</th>
+
+			</tr>
+			<tr>
+				<td>{% load django_tables2 %}{% render_table table %}</td>
+				<td></td>
+			</tr>
+		</table>
+        <hr />
+        <h3>Match Players and Data</h3>
+        <hr>
+        <form action= "" method="post" style="color: royalblue"/>
+            {% csrf_token %}
+            {{ playerform.Players }} {{ playerform.Data }}
+            <br />
+            <br />
+            <input type="submit" value="View Players and Data" name="GetPlayers"/>
+        </form>
+        <p> </p>
+        <form action="" method="get" style="color: royalblue" />
+            <input type="submit" value="Reset the Data Table" name="Reset"/>
+        </form>
+
+        <table class="table table-bordered table-striped">
+			<tr>
+				<th>Match Players</th>
+			</tr>
+			<tr>
+				<td>
+                    {% load django_tables2 %}{% render_table playertable %} {# remove whem conditional works #}
+                    {% if option in form == "matchplayers"%}
+
+                        % load django_tables2 %}{% render_table playertable %}
+
+                    {% endif %}
+
+                </td>
+				<td> </td>
+			</tr>
+		</table>
+        <br />
+
+    <br />
+        <table class="table table-bordered table-striped">
+			<tr>
+				<th>Match Data</th>
+			</tr>
+			<tr>
+				<td>{% load django_tables2 %}{% render_table playerdata %}</td>
+				<td> </td>
+			</tr>
+		</table>
+	</div>
+	<br><hr>
+	<footer>
+		<div class="footer-social-icons">
+				<p>Contact Us:</p>
+				<ul class="list-inline">
+					<li><a href="#"><i class="fa fa-github fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-facebook-official fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-slack fa-lg" aria-hidden="true"></i></a></li>
+				</ul>
+			</div>
+	</footer>
+	<br>
+</body>
+</html>
