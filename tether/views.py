@@ -583,7 +583,7 @@ def join_public(request):  # view for users to look for leagues
     # return the template with provided context, ie. with users searched leagues.
 
 
-#@login_required(login_url='/tether/login/')  # login decorator that requires login if user is not
+@login_required(login_url='/tether/login/')  # login decorator that requires login if user is not
 
 def add_league(request):  # view for users to create leagues
     if request.method == 'POST':  # if it a post request
@@ -944,7 +944,7 @@ def profile(request):
                 if (request.GET.get('Reset')):
                     print('Get ready to tango, bub')
                     with connection.cursor() as cursor:
-                        cursor.execute("DELETE FROM match_data WHERE id >= 333;")
+                        cursor.execute("DELETE FROM match_data WHERE id >= 1")
 
 
                 return p_entry
@@ -1200,12 +1200,15 @@ def profile(request):
         # -----------------------------------------------------------------------------------------------
 
         r = PlayersAndData()
-        r.get_profile_match_hist()
-        #r.filter()
-        r.get_match_players()
-        r.get_all_data()
-        r.get_common_d()
-        r.get_dota_d()
+        try:
+            r.get_profile_match_hist()
+            #r.filter()
+            r.get_match_players()
+            r.get_all_data()
+            r.get_common_d()
+            r.get_dota_d()
+        except:
+            raise Http404
     # Removing duplicate rows:
         for row in tether.models.NewRecentMatches1.objects.all():
             if tether.models.NewRecentMatches1.objects.filter(userprofile1__steam_id=sid).count() > 1:
@@ -1224,7 +1227,7 @@ def profile(request):
     # ------------------------------------------------------------------------------------------------------------
     # datatable = tether.tables.PlayerData(tether.models.MatchData.objects.filter(id=120))
     datatable = tether.tables.PlayerData(
-        tether.models.MatchData.objects.raw('''SELECT * from match_data WHERE id >= 333'''))
+        tether.models.MatchData.objects.raw('''SELECT * from match_data'''))
     playertable = tether.tables.PlayerTable(
         tether.models.MatchPlayers.objects.filter(newrecentmatches1__userprofile1__steam_id=sid), prefix='1-')
     table = tether.tables.MatchTable(tether.models.NewRecentMatches1.objects.filter(userprofile1__steam_id=sid), prefix='2-')

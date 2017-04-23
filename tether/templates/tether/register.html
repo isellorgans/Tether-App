@@ -8,7 +8,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Sansita" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
-<body class="container" style="background: #cccccc url({% static "images/background.jpg" %}) fixed;">
+<body class="container" style="background: #cccccc url({% static "images/background3.jpg" %}) fixed;">
 {% if registered %}
     <h1><a href="{% url 'index' %}">Thank you for registering! Click here to go to the home page!</a></h1>
 
@@ -75,7 +75,18 @@
   </div>
 </div>
 
-<!-- Button -->
+<div id="note" style="background-color: #05312e; margin-right: 100px; margin-left: 100px; size: 500px" >
+    <h4 style="color: #f9f8f2; border: ridge; text-align: center; size: 25px">NOTE: In order to view your recent match statistics you MUST have a valid Steam ID.
+        <br />
+        <br />Please enter your Steam ID in the newer <i>SteamID3</i> format. The easiest way to find this is by searching for yourself on <a href="https://www.opendota.com/" style="color: #3e8f3e">OpenDota.</a>
+        <br />
+        <br />
+        If you still unable to access your profile after registering, contact an Administrator. <br />
+    </h4>
+
+</div>
+    <br />
+                <!-- Button -->
 <div class="form-group">
   <label class="col-md-4 control-label" for="singlebutton"> </label>
   <div class="col-md-4">
